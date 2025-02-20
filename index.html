@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real vs AI Image Classifier</title>
+    <style>
+        
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* Centering the container with a border and shadow */
+        .container {
+            max-width: 500px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Styling for file input */
+        input[type="file"] {
+            margin: 10px 0;
+        }
+
+        /* Button styling */
+        button {
+            padding: 10px 20px;
+            background-color: #000000;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Disabled button  */
+        button:disabled {
+            background-color: #3a3a3a;
+        }
+
+        /* Result text  */
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        /* Image preview */
+        img {
+            max-width: 100%;
+            height: auto;
+            margin-top: 10px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- upload form and prediction result -->
+    <div class="container">
+        <h2>Upload an Image</h2>
+
+        <!-- File input  -->
+        <input type="file" id="imageInput" accept="image/*">
+        <br>
+
+        <!-- Button to upload the image and do the prediction -->
+        <button id="uploadBtn" onclick="uploadImage()">Predict</button>
+
+        <!-- Display prediction result -->
+        <p id="result"></p>
+
+        <!-- Image preview  -->
+        <img id="previewImage" style="display: none;">
+    </div>
+
+    <script>
+        function uploadImage() {
+            let fileInput = document.getElementById("imageInput"); // Get the file input element
+            let file = fileInput.files[0]; // Retrieve the selected file
+
+            if (!file) {
+                alert("Please select an image first!"); // Alert if no file is selected
+                return;
+            }
+
+            let formData = new FormData(); // Create a FormData object to send file to Flask backend
+            formData.append("file", file); // Append the image file to the form data
+
+            let resultText = document.getElementById("result"); // Get the result display area
+            let previewImage = document.getElementById("previewImage"); // Get the image preview element
+            let uploadBtn = document.getElementById("uploadBtn"); // Get the upload button
+
+            uploadBtn.disabled = true; // Disable button to prevent multiple submissions
+            resultText.innerHTML = "Processing..."; // Show processing message
+
+            // Display the uploaded image as a preview
+            let reader = new FileReader();
+            reader.onload = function (e) {
+                previewImage.src = e.target.result; // Set the source of the preview image
+                previewImage.style.display = "block"; // Make the image visible
+            };
+            reader.readAsDataURL(file); // Read file as a data URL to show preview
+
+            // Send the image to Flask backend for prediction
+            fetch("/", {
+                method: "POST",
+                body: formData // Send the form data containing the image
+            })
+            .then(response => response.json()) // Parse the JSON response from the server
+            .then(data => {
+                resultText.innerHTML = "Prediction: " + data.label; // Display the predicted label
+                uploadBtn.disabled = false; // Re-enable the button after receiving response
+            })
+            .catch(error => {
+                resultText.innerHTML = "Error in prediction."; // Display error if request fails
+                uploadBtn.disabled = false; // Re-enable the button
+            });
+        }
+    </script>
+
+</body>
+</html>

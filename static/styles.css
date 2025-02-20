@@ -1,0 +1,167 @@
+/* Importing Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
+/* General Styles */
+body {
+    font-family: 'Orbitron', sans-serif;
+    background-color: #0d0f1a;
+    color: #e0e0e0;
+    text-align: center;
+    padding: 20px;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Makes the body take the full viewport height */
+}
+
+/* Add margin to create space at the top */
+.container {
+    max-width: 450px;
+    padding: 25px;
+    background: rgba(20, 20, 40, 0.9);
+    border-radius: 12px;
+    box-shadow: 0px 0px 15px rgba(0, 255, 255, 0.4);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 2px solid rgba(0, 255, 255, 0.5);
+    
+    /* Added this to give some top space */
+    margin-top: 50px; /* Adjust this for more or less space */
+}
+
+/* Prevent flexbox from squeezing the content */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 0px 25px rgba(0, 255, 255, 0.7);
+}
+
+/* Title */
+h2 {
+    color: #00ffff;
+    font-size: 24px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 0px 0px 10px rgba(0, 255, 255, 0.8);
+}
+.version-info {
+    font-size: 14px;
+    color: #00ffff;
+    margin-top: 10px;
+    max-width: 400px;
+    text-align: center;
+    line-height: 1.5;
+}
+
+
+/* File Input */
+input[type="file"] {
+    display: none;
+}
+
+/* File Upload Label */
+.upload-label {
+    display: inline-block;
+    background: linear-gradient(135deg, #00ffff 0%, #0077ff 100%);
+    color: #0d0f1a;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    text-transform: uppercase;
+    box-shadow: 0px 0px 10px rgba(0, 255, 255, 0.7);
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.upload-label:hover {
+    background: linear-gradient(135deg, #0077ff 0%, #00ffff 100%);
+    transform: scale(1.05);
+}
+
+/* Hide Default File Input */
+input[type="file"] {
+    display: none;
+}
+
+
+/* Upload Button */
+button {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, #00ffff 0%, #0077ff 100%);
+    color: #0d0f1a;
+    font-size: 16px;
+    font-weight: bold;
+    font-family: 'Orbitron', sans-serif;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 15px;
+    text-transform: uppercase;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0px 0px 10px rgba(0, 255, 255, 0.7);
+}
+
+button:hover {
+    background: linear-gradient(135deg, #0077ff 0%, #00ffff 100%);
+    transform: scale(1.05);
+    box-shadow: 0px 0px 15px rgba(0, 255, 255, 1);
+}
+
+button:disabled {
+    background: #444;
+    color: #888;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* Result Text */
+#result {
+    margin-top: 20px;
+    font-size: 20px;
+    font-weight: 700;
+    color: #00ffff;
+    text-shadow: 0px 0px 10px rgba(0, 255, 255, 0.7);
+}
+
+/* Image Preview */
+#previewImage {
+    max-width: 100%;
+    height: auto;
+    margin-top: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 15px rgba(0, 255, 255, 0.5);
+    border: 2px solid rgba(0, 255, 255, 0.5);
+    animation: neon-glow 1.5s infinite alternate;
+}
+
+/* Neon Glow Animation */
+@keyframes neon-glow {
+    from {
+        box-shadow: 0px 0px 10px rgba(0, 255, 255, 0.5);
+    }
+    to {
+        box-shadow: 0px 0px 20px rgba(0, 255, 255, 1);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 500px) {
+    .container {
+        width: 90%;
+    }
+
+    label, button {
+        width: 100%;
+    }
+}

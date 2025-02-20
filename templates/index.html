@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Real vs AI Image Classifier</title>
+    
+</head>
+<body>
+
+    <div class="container">
+        <h2>AI-Generated vs Real</h2>
+        <h3>Version 1.0</h3>
+        <p class="version-info">
+            This is the initial version of the AI model, designed to identify significantly distinguishable images. 
+            While it provides useful insights, it does not guarantee 100% accuracy. 
+            Future updates will bring improved versions with enhanced precision and capabilities.
+        </p>
+        
+        <input type="file" id="imageInput" accept="image/*">
+        <label for="imageInput" class="upload-label">Choose Image</label>
+        <br>
+        <input type="file" id="imageInput" accept="image/*">
+        <br>
+        <button id="uploadBtn" onclick="uploadImage()">Predict</button>
+        <p id="result"></p>
+        <img id="previewImage" style="display: none;">
+    </div>
+
+    <script>
+        function uploadImage() {
+            let fileInput = document.getElementById("imageInput");
+            let file = fileInput.files[0];
+
+            if (!file) {
+                alert("Please select an image first!");
+                return;
+            }
+
+            let formData = new FormData();
+            formData.append("file", file);
+
+            let resultText = document.getElementById("result");
+            let previewImage = document.getElementById("previewImage");
+            let uploadBtn = document.getElementById("uploadBtn");
+
+            uploadBtn.disabled = true;
+            resultText.innerHTML = "Processing...";
+
+            // Preview the uploaded image
+            let reader = new FileReader();
+            reader.onload = function (e) {
+                previewImage.src = e.target.result;
+                previewImage.style.display = "block";
+            };
+            reader.readAsDataURL(file);
+
+            fetch("/", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                resultText.innerHTML = "Prediction: " + data.label;
+                uploadBtn.disabled = false;
+            })
+            .catch(error => {
+                resultText.innerHTML = "Error in prediction.";
+                uploadBtn.disabled = false;
+            });
+        }
+    </script>
+
+</body>
+</html>
